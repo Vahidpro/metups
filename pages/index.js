@@ -19,8 +19,18 @@ const DUMMY_MEETUPS = [
 	},
 ];
 
-function Homepage() {
+function Homepage(props) {
 	return <MeetupList meetups={DUMMY_MEETUPS}></MeetupList>;
 }
 
 export default Homepage;
+
+export async function getStaticProps(context) {
+	return {
+		props: {
+			meetups: DUMMY_MEETUPS,
+		}, // will be passed to the page component as props
+
+		revalidate: 10,
+	};
+}
