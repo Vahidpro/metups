@@ -1,10 +1,28 @@
-import NewMeetupForm from "../../components/meetups/NewMeetupForm";
+// our-domain.com/new-meetup
+import { useRouter } from 'next/router';
 
-function Homepage() {
-	function addMeetupHandler(enterdMeetupData) {
-		console.log(enterdMeetupData);
-	}
-	return <NewMeetupForm onAddMeetup={addMeetupHandler}></NewMeetupForm>;
+import NewMeetupForm from '../../components/meetups/NewMeetupForm';
+
+function NewMeetupPage() {
+  const router = useRouter();
+
+  async function addMeetupHandler(enteredMeetupData) {
+    const response = await fetch('/api/new-meetup', {
+      method: 'POST',
+      body: JSON.stringify(enteredMeetupData),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    router.push('/');
+  }
+
+  return <NewMeetupForm onAddMeetup={addMeetupHandler} />
 }
 
-export default Homepage;
+export default NewMeetupPage;
